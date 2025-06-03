@@ -1,2 +1,2 @@
 # location-form
-geo locations (lat-long details)
+Geo Location (lat-long details)
