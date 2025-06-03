@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Share Your Location</title>
+</head>
+<body>
+  <h2>Share Your Location</h2>
+  <button onclick="sendLocation()">Send My Location</button>
+  <p id="status"></p>
+
+  <script>
+    function sendLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error);
+      } else {
+        document.getElementById('status').innerText = "Geolocation is not supported by this browser.";
+      }
+    }
+
+    function success(position) {
+      const data = {
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+        accuracy: position.coords.accuracy,
+        userAgent: navigator.userAgent
+      };
+
+      fetch('https://script.google.com/macros/s/AKfycby-QE7Hpqg3lG8cXY1pv6z3PvsVm8M66ztD_h1SzvGX9kNTcppP2DMJcGL7C1HNeu9p/exec', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.text())
+      .then(result => {
+        document.getElementById('status').innerText = "Location sent successfully!";
+      })
+      .catch(error => {
+        document.getElementById('status').innerText = "Error sending location.";
+      });
+    }
+
+    function error(err) {
+      document.getElementById('status').innerText = `Error: ${err.message}`;
+    }
+  </script>
+</body>
+</html>
