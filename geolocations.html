@@ -1,19 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Share Your Location</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>location-form</title>
 </head>
-<body>
-  <h2>Share Your Location</h2>
-  <button onclick="sendLocation()">Send My Location</button>
-  <p id="status"></p>
+<body style="font-family: Arial, sans-serif; padding: 30px;">
+
+  <h1>location-form</h1>
+  <p>Geo Location (lat-long details)</p>
+
+  <button onclick="sendLocation()" style="padding: 10px 20px;">Share My Location</button>
+  <p id="status" style="margin-top: 20px; color: green;"></p>
 
   <script>
     function sendLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(success, error);
       } else {
-        document.getElementById('status').innerText = "Geolocation is not supported by this browser.";
+        document.getElementById('status').innerText = "Geolocation not supported.";
       }
     }
 
@@ -25,12 +30,10 @@
         userAgent: navigator.userAgent
       };
 
-      fetch('https://script.google.com/macros/library/d/1jm0ooUfPem-5plDjcBsN9NXLRJZiKjkm_cFTzQqW1uTd49_Dit7yNXlW/1', {
+      fetch('https://script.google.com/macros/s/AKfycby-QE7Hpqg3lG8cXY1pv6z3PvsVm8M66ztD_h1SzvGX9kNTcppP2DMJcGL7C1HNeu9p/exec', {
         method: 'POST',
         body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        headers: { 'Content-Type': 'application/json' }
       })
       .then(response => response.text())
       .then(result => {
@@ -45,5 +48,6 @@
       document.getElementById('status').innerText = `Error: ${err.message}`;
     }
   </script>
+
 </body>
 </html>
